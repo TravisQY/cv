@@ -257,3 +257,31 @@
   });
 
 })()
+
+// 把 token 送到後端做驗證
+function verifyCallback(token) {
+
+  let formData = new FormData();
+  formData.append('token', token);
+
+  fetch(uriGAS, {
+    method: "POST",
+    body: formData
+  }).then(response => response.json())
+    .then(result => {
+      if(result.success) {
+        // 分數大過 0.5，才當作是真實人類操作
+        if(result.score > 0.5) {
+          // 判斷是真人時要做的事
+        }
+        // 分數低於 0.5，當作機器人
+        else {
+          // 判斷是機器人時要做的事
+        }
+      } else {
+      	window.alert(result['error-codes'][0])
+      }
+    })
+    .catch(err => {
+    	window.alert(err)
+    })
